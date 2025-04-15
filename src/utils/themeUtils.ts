@@ -18,7 +18,6 @@ export const initializeThemeListeners = (setDarkMode: (darkMode: boolean) => voi
     document.documentElement.classList.remove('dark');
   }
 
-  // Optional: Listen for changes in system theme preference (media query)
   const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
   const handleSystemThemeChange = (e: MediaQueryListEvent) => {
     setDarkMode(e.matches);
@@ -27,7 +26,6 @@ export const initializeThemeListeners = (setDarkMode: (darkMode: boolean) => voi
 
   mediaQuery.addEventListener('change', handleSystemThemeChange);
 
-  // Cleanup listener on component unmount
   return () => {
     mediaQuery.removeEventListener('change', handleSystemThemeChange);
   };

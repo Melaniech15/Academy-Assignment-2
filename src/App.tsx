@@ -9,10 +9,8 @@ import { updateTheme } from './utils/themeUtils';
 
 const App = () => {
   useEffect(() => {
-    // Initialize auth from localStorage
     initializeAuth();
-    
-    // Initialize theme and apply it
+
     const isDarkMode = initializeTheme();
     updateTheme(isDarkMode);
   }, []);

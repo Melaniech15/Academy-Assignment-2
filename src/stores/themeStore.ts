@@ -25,13 +25,12 @@ export const useThemeStore = create<ThemeState>((set) => ({
 
   setDarkMode: (isDark: boolean) => {
     localStorage.setItem('theme', isDark ? 'dark' : 'light')
-    // Apply the dark class to the <html> element
     document.documentElement.classList.toggle('dark', isDark)
     set({ isDarkMode: isDark })
   }
 }))
 
-// Helper function to initialize theme state from localStorage or system preference
+
 export const initializeTheme = () => {
   const storedTheme = localStorage.getItem('theme')
 
@@ -42,14 +41,13 @@ export const initializeTheme = () => {
     useThemeStore.getState().setDarkMode(false)
     return false
   } else {
-    // Use system preference if no stored preference
+
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
     useThemeStore.getState().setDarkMode(systemPrefersDark)
     return systemPrefersDark
   }
 }
 
-// Listen to system theme changes (optional)
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
   const isDarkMode = e.matches
   useThemeStore.getState().setDarkMode(isDarkMode)
