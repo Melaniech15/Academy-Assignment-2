@@ -9,7 +9,6 @@ const DashboardPage: React.FC = () => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const navigate = useNavigate();
 
-  // Debounce search term
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
@@ -20,12 +19,12 @@ const DashboardPage: React.FC = () => {
     };
   }, [searchTerm]);
 
-  // Set document title
+
   useEffect(() => {
     document.title = 'User Management';
   }, []);
 
-  // Fetch users with React Query
+
   const { data, isLoading, error } = useQuery({
     queryKey: ['users', debouncedSearchTerm],
     queryFn: () => getUsers(debouncedSearchTerm),

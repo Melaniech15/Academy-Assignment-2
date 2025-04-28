@@ -44,8 +44,8 @@ const NewUserPage = () => {
                     firstName: '',
                     lastName: '',
                     email: '',
-                    status: UserStatus.ACTIVE,
-                    dateOfBirth: new Date().toISOString().split('T')[0], // Set default date
+                    status: undefined,
+                    dateOfBirth: undefined, 
                 }}
                 onSubmit={handleSubmit}
                 onCancel={handleCancel}

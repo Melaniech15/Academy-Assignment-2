@@ -97,16 +97,14 @@ export async function getUserById(id: string): Promise<{ user: User }> {
 
 export async function createUser(userData: UserFormData): Promise<{ user: User }> {
   try {
-    // Log the request payload for debugging
     console.log('Creating user with data:', userData);
     
     const response = await fetch(`${BASE_URL}/users`, {
       method: 'POST',
       headers: getHeaders(),
-      body: JSON.stringify(userData), // Send userData directly without wrapping
+      body: JSON.stringify(userData), 
     });
 
-    // Log the full response for debugging
     console.log('Create user response status:', response.status);
     const responseData = await response.json();
     console.log('Create user response:', responseData);
@@ -122,20 +120,18 @@ export async function createUser(userData: UserFormData): Promise<{ user: User }
   }
 }
 
-// api.ts - The updateUser function
 export async function updateUser(id: string, userData: UserFormData): Promise<{ user: User }> {
   try {
-    // Log the request payload for debugging
     console.log('Updating user with ID:', id);
     console.log('Update data:', userData);
     
     const response = await fetch(`${BASE_URL}/users/${id}`, {
       method: 'PUT',
       headers: getHeaders(),
-      body: JSON.stringify(userData), // Send userData directly without wrapping
+      body: JSON.stringify(userData), 
     });
 
-    // Log the full response for debugging
+
     console.log('Update user response status:', response.status);
     const responseData = await response.json();
     console.log('Update user response:', responseData);

@@ -14,7 +14,6 @@ const EditUserPage = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch user data
   useEffect(() => {
     const fetchUser = async () => {
       if (!id) return;
@@ -36,7 +35,6 @@ const EditUserPage = () => {
     fetchUser();
   }, [id, navigate]);
 
-  // Update user mutation
   const updateUserMutation = useMutation({
     mutationFn: (userData: UserFormValues) => updateUser(id!, userData),
     onSuccess: () => {

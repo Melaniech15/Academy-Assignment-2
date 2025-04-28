@@ -1,4 +1,3 @@
-// In components/atoms/Modal.tsx
 import React from 'react';
 
 interface ModalProps {

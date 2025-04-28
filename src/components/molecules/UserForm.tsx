@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserStatus } from '../../types/user';
 
-// Define schema with Zod
 const userFormSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().optional(),
@@ -38,7 +37,7 @@ const UserForm: React.FC<UserFormProps> = ({ initialValues, onSubmit, isLoading,
       firstName: '',
       lastName: '',
       email: '',
-      dateOfBirth: new Date().toISOString().split('T')[0], // Default to current date
+      dateOfBirth: undefined, 
       status: UserStatus.ACTIVE,
       ...initialValues,
     },

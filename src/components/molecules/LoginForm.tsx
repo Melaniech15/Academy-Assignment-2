@@ -35,7 +35,7 @@ const LoginForm = () => {
       }
 
       const response = await loginUser(data);
-      login(response.accessToken); // Correct usage
+      login(response.accessToken); 
       navigate('/dashboard');
     } catch (error) {
       setApiError(error instanceof Error ? error.message : 'An unknown error occurred');

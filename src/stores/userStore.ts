@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 
-// In stores/userStore.ts
 export interface User {
   id: string;
   firstName: string;

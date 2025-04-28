@@ -1,5 +1,5 @@
 export interface User {
-  name: string; // Changed from ReactNode to string
+  name: string; 
   id: string;
   firstName: string;
   lastName?: string;
@@ -12,5 +12,4 @@ export enum UserStatus {
   LOCKED = 'locked'
 }
 
-// Type for form data (without ID)
 export type UserFormData = Omit<User, 'id'>;

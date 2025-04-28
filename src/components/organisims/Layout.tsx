@@ -1,4 +1,3 @@
-// In components/organisims/Layout.tsx
 import { useEffect } from 'react'; 
 import { Outlet, useNavigate, Link } from 'react-router-dom'; 
 import { useThemeStore } from '../../stores/themeStore'; 
