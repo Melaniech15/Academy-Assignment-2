@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 
+// In stores/userStore.ts
 export interface User {
   id: string;
   firstName: string;
@@ -8,7 +9,6 @@ export interface User {
   status: 'ACTIVE' | 'LOCKED';
   dateOfBirth: string;
 }
-
 
 interface UserState {
   users: User[];

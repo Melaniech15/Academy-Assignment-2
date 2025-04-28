@@ -1,48 +1,48 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useAuthStore } from '../../stores/authStore'
-import { loginUser } from '../../services/api'
-import React from 'react'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useAuthStore } from '../../stores/authStore';
+import { loginUser } from '../../services/api';
+import React from 'react';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email').min(1, 'Email is required'),
   password: z.string().min(1, 'Password is required'),
-})
+});
 
-type LoginFormData = z.infer<typeof loginSchema>
+type LoginFormData = z.infer<typeof loginSchema>;
 
 const LoginForm = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [apiError, setApiError] = useState<string | null>(null)
-  const login = useAuthStore((state) => state.login)
-  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const login = useAuthStore((state) => state.login);
+  const navigate = useNavigate();
 
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-  })
+  });
 
   const onSubmit = async (data: LoginFormData) => {
-    setIsLoading(true)
-    setApiError(null)
+    setIsLoading(true);
+    setApiError(null);
 
     try {
       if (data.email !== "academy@gmail.com" || data.password !== "academy123") {
-        throw new Error("Invalid credentials. Please check your email and password.")
+        throw new Error("Invalid credentials. Please check your email and password.");
       }
 
-      const response = await loginUser(data)
-      login(response.accessToken)
-      navigate('/dashboard')
+      const response = await loginUser(data);
+      login(response.accessToken); // Correct usage
+      navigate('/dashboard');
     } catch (error) {
-      setApiError(error instanceof Error ? error.message : 'An unknown error occurred')
+      setApiError(error instanceof Error ? error.message : 'An unknown error occurred');
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="w-full max-w-md mx-auto p-6 bg-white dark:bg-white/10 rounded-lg shadow-md">
@@ -111,3 +111,4 @@ const LoginForm = () => {
 }
 
 export default LoginForm
+

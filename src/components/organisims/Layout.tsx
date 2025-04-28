@@ -1,5 +1,6 @@
+// In components/organisims/Layout.tsx
 import { useEffect } from 'react'; 
-import { Outlet, useNavigate } from 'react-router-dom'; 
+import { Outlet, useNavigate, Link } from 'react-router-dom'; 
 import { useThemeStore } from '../../stores/themeStore'; 
 import { useAuthStore } from '../../stores/authStore'; 
 import { updateTheme, initializeThemeListeners } from '../../utils/themeUtils'; 
@@ -31,13 +32,16 @@ const Layout = () => {
   };
 
   return (
-    <div className="min-h-screen transition-colors">
+    <div className="min-h-screen transition-colors  dark:bg-[#121212]">
       <nav className="bg-[var(--primary)] dark:bg-[#121212]/90 p-4 text-white flex justify-between items-center shadow-md">
         <h1 className="text-2xl font-medium">User Management</h1>
         <div className="flex gap-4">
-          <button className="bg-white dark:bg-gray-300 text-[var(--primary)] px-4 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-300 transition-colors font-medium">
+          <Link 
+            to="/dashboard/new"
+            className="bg-white dark:bg-gray-300 text-[var(--primary)] px-4 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-300 transition-colors font-medium"
+          >
             Create User
-          </button>
+          </Link>
           <button
             onClick={handleLogout}
             className="bg-red-500 dark:bg-red-700 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors font-medium"
@@ -62,7 +66,7 @@ const Layout = () => {
         </div>
       </nav>
 
-      <main className=" bg-white dark:bg-[#121212] mx-auto px-5 py-6">
+      <main className="bg-white dark:bg-[#121212] mx-auto px-5 py-6">
         <Outlet />
       </main>
     </div>

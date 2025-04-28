@@ -1,52 +1,40 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import UserCard from '../components/atoms/UserCard';
-import { useUserStore } from '../stores/userStore';
-import mockData from '../../mock/users.json';
-import { User } from '../stores/userStore';
+import { getUsers } from '../services/api';
 
-const DashboardPage = () => {
-  const { users, setUsers, isLoading, setLoading, setError, error } = useUserStore();
+const DashboardPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const navigate = useNavigate();
 
+  // Debounce search term
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchTerm]);
+
+  // Set document title
   useEffect(() => {
     document.title = 'User Management';
   }, []);
 
-  useEffect(() => {
-    const loadUsers = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-
-        const typedUsers: User[] = mockData.users.map((user) => ({
-          ...user,
-          status: user.status as 'ACTIVE' | 'LOCKED',
-        }));
-
-        setUsers(typedUsers);
-      } catch (error) {
-        setError(error instanceof Error ? error.message : 'An unknown error occurred');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadUsers();
-  }, [setUsers, setLoading, setError]);
-
-  const filteredUsers = Array.isArray(users)
-    ? users.filter((user) =>
-        user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (user.lastName && user.lastName.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : [];
+  // Fetch users with React Query
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['users', debouncedSearchTerm],
+    queryFn: () => getUsers(debouncedSearchTerm),
+  });
 
   return (
     <div className="min-h-screen text-gray-900 transition-colors">
       <main className="container mx-auto px-6 py-6">
-        <div className="mb-6">
+        <div className="flex justify-between items-center mb-6">
           <input
             type="text"
             placeholder="Search users..."
@@ -62,15 +50,15 @@ const DashboardPage = () => {
           </div>
         ) : error ? (
           <div className="bg-red-100 text-red-700 p-4 rounded-md">
-            Error: {error}
+            Error: {error instanceof Error ? error.message : 'An unknown error occurred'}
           </div>
-        ) : filteredUsers.length === 0 ? (
-          <div className="text-center p-6 bg-gray-200 rounded-lg">
+        ) : data?.users.length === 0 ? (
+          <div className="text-center p-6 bg-gray-200 dark:bg-gray-700 rounded-lg">
             No users found.
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 bg-white dark:bg-[#121212]"> {}
-            {filteredUsers.map((user) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {data?.users.map((user: any) => (
               <UserCard key={user.id} user={user} />
             ))}
           </div>
